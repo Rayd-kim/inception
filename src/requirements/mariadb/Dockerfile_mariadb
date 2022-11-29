@@ -6,15 +6,12 @@ RUN apt-get update && apt-get -y install mariadb-server vim
 
 COPY 50-server.cnf /etc/mysql/mariadb.conf.d/
 
-RUN service mysql start
+COPY set.sh /
 
-# RUN mysql -e "CREATE DATABASE wordpress_db"; \
-# 		mysql -e "CREATE USER 'youskim'@'%' IDENTIFIED BY 'dbtjd0513'"; \
-# 		mysql -e "GRANT ALL ON wordpress_db.* TO 'youskim'@'%'"; \
-# 		mysql -e "FLUSH PRIVILEGES";
+ADD ../../.env /
 
- EXPOSE 3306
+RUN sh set.sh
 
-# ENTRYPOINT [ "mariadb" ]
+#EXPOSE 3306
 
 CMD [ "mysqld"]

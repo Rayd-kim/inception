@@ -62,6 +62,8 @@ services:
       dockerfile: Dockerfile_mariadb
     volumes:
       - db_vol:/var/lib/mysql
+    env_file:
+      - .env
     expose:
       - "3306"
     networks:
