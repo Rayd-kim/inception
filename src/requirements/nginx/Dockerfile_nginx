@@ -1,0 +1,15 @@
+FROM debian:buster
+
+RUN apt-get update && apt-get install nginx -y vim \
+	&& apt-get install -y openssl
+
+RUN openssl req -newkey rsa:4096 -x509 -days 365 -nodes -subj \
+	"/C=KR/ST=GAEPO/L=Seoul/O=ECOLE42/OU=42SEOUL/CN=localhost" \
+	-keyout private.dev.key -out private.dev.crt \
+	&& chmod 600 private.dev.crt private.dev.key \
+	&& mv private.dev.crt /etc/ssl/certs/ \
+	&& mv private.dev.key /etc/ssl/private/
+
+COPY default /etc/nginx/sites-available/
+
+ENTRYPOINT [ "nginx", "-g","daemon off;" ]

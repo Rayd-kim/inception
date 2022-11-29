@@ -1,0 +1,73 @@
+version: '3'
+
+volumes:
+    db_vol:
+      name: db_vol
+ #      driver: local
+ #      driver_opts:
+ #       type: none
+ #       o: bind
+        #device: /home/youskim/data/mariadb
+#       device : ${PWD}
+    wp_vol:
+      name: wp_vol
+#      driver: local
+#      driver_opts:
+#        type: none
+#        o: bind
+        #device: /home/youskim/data/wordpress
+#        device: ${PWD}
+
+services:
+  nginx:
+    # image: debian:buster
+    container_name: nginx
+    image: nginx
+    build:
+      context: ./requirements/nginx
+      dockerfile: Dockerfile_nginx
+    ports:
+      - "443:443"
+    volumes:
+      - wp_vol:/var/www/html
+    networks:
+      - intra
+    depends_on:
+      - wordpress
+    #restart: always
+
+  wordpress:
+    # image: debian:buster
+    container_name: wordpress
+    image: wordpress
+    build:
+      context: ./requirements/wordpress
+      dockerfile: Dockerfile_wordpress_php
+    volumes:
+      - wp_vol:/var/www/html
+    expose:
+      - "9000"
+    networks:
+      - intra
+    depends_on:
+      - mariadb
+        #restart: always
+
+  mariadb:
+    # image: debian:buster
+    container_name: mariadb
+    image: mariadb
+    build:
+      context: ./requirements/mariadb
+      dockerfile: Dockerfile_mariadb
+    volumes:
+      - db_vol:/var/lib/mysql
+    expose:
+      - "3306"
+    networks:
+      - intra
+        #restart: always
+
+networks:
+  intra:
+   driver: bridge
