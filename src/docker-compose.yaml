@@ -35,7 +35,6 @@ services:
     restart: always
 
   wordpress:
-    # image: debian:buster
     container_name: wordpress
     image: wordpress
     build:
@@ -49,10 +48,11 @@ services:
       - inception
     depends_on:
       - mariadb
+    env_file:
+      - .env
     restart: always
 
   mariadb:
-    # image: debian:buster
     container_name: mariadb
     image: mariadb
     build:

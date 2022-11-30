@@ -19,15 +19,22 @@ fi
 
 chown -R www-data:www-data /var/www/html
 
-if [ -e /var/www/html/wp_config.php ];
+if [ -e /var/www/html/wp-config.php ];
 then
 	echo "already wordpress exist"
 else
 	cd /var/www/html
+	echo "1"
 	wp core download --allow-root
-	wp core config --dbname=wordpress_db --dbuser=youskim --dbpass=dbtjd0513! --dbhost=mariadb --dbprefix=wp_ --allow-root
-	wp core install --url=youskim.42.fr --title=inception --admin_user=youskim --admin_password=dbtjd0513! --admin_email=usk05@naver.com --allow-root
-	wp user create usk05 youskim@naver.com --user_pass=dbtjd0513 --user_url=usk05.42.fr --allow-root
+	echo "2"
+	while [ ! -f /var/www/html/wp-config.php ];do
+		wp config create --dbname=$DB_NAME --dbuser=$DB_USER --dbpass=$DB_PW --dbhost=mariadb --dbprefix=wp_ --allow-root
+	done
+	echo "3"
+	wp core install --url=$WP_ADMIN_URL --title=inception --admin_user=$WP_ADMIN_ID --admin_password=$WP_ADMIN_PW --admin_email=$WP_ADMIN_EMAIL --path=/var/www/html --allow-root
+	echo "4"
+	wp user create $WP_USER_ID $WP_USER_EMAIL --user_pass=$WP_USER_PW --user_url=$WP_USER_URL --allow-root
+	echo "5"
 fi
 
 php-fpm7.3 --nodaemonize
