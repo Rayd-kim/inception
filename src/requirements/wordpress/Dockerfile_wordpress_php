@@ -4,19 +4,14 @@ RUN apt-get update && apt-get install -y wget php-fpm vim \
 		&& apt-get install -y mariadb-client \
 		&& apt-get install -y php-mysqlnd php-mysqli
 
-RUN wget https://wordpress.org/latest.tar.gz && \
-		tar -xvf latest.tar.gz && \
-		mkdir /var/www /var/www/html &&\
-		mv /wordpress/* /var/www/html/ && \
-		chown -R www-data:www-data /var/www/html && \
-		rm -rf /wordpress latest.tar.gz
-
 RUN mkdir /var/run/php
 
 COPY www.conf /etc/php/7.3/fpm/pool.d/
 
-# COPY /home/youskim/data/wp-config.php /var/www/html/
+COPY set.sh /
 
-# RUN service php7.3-fpm start
+#RUN sh set.sh
 
-CMD php-fpm7.3 --nodaemonize
+#CMD php-fpm7.3 --nodaemonize
+
+CMD ["bash", "set.sh"]

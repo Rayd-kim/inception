@@ -1,22 +1,20 @@
 version: '3'
 
 volumes:
-    db_vol:
-      name: db_vol
- #      driver: local
- #      driver_opts:
- #       type: none
- #       o: bind
-        #device: /home/youskim/data/mariadb
-#       device : ${PWD}
-    wp_vol:
-      name: wp_vol
-#      driver: local
-#      driver_opts:
-#        type: none
-#        o: bind
-        #device: /home/youskim/data/wordpress
-#        device: ${PWD}
+    db:
+      name: db
+      driver: local
+      driver_opts:
+        type: none
+        o: bind
+        device: /home/youskim/data/mysql
+    wp:
+      name: wp
+      driver: local
+      driver_opts:
+        type: none
+        o: bind
+        device: /home/youskim/data/wordpress
 
 services:
   nginx:
@@ -29,12 +27,12 @@ services:
     ports:
       - "443:443"
     volumes:
-      - wp_vol:/var/www/html
+      - wp:/var/www/html
     networks:
-      - intra
+      - inception
     depends_on:
       - wordpress
-    #restart: always
+    restart: always
 
   wordpress:
     # image: debian:buster
@@ -44,14 +42,14 @@ services:
       context: ./requirements/wordpress
       dockerfile: Dockerfile_wordpress_php
     volumes:
-      - wp_vol:/var/www/html
+      - wp:/var/www/html
     expose:
       - "9000"
     networks:
-      - intra
+      - inception
     depends_on:
       - mariadb
-        #restart: always
+    restart: always
 
   mariadb:
     # image: debian:buster
@@ -61,15 +59,16 @@ services:
       context: ./requirements/mariadb
       dockerfile: Dockerfile_mariadb
     volumes:
-      - db_vol:/var/lib/mysql
+      - db:/var/lib/mysql
     env_file:
       - .env
     expose:
       - "3306"
     networks:
-      - intra
-        #restart: always
+      - inception
+    restart: always
 
 networks:
-  intra:
-   driver: bridge
+  inception:
+    name: inception
+    driver: bridge

@@ -8,10 +8,12 @@ COPY 50-server.cnf /etc/mysql/mariadb.conf.d/
 
 COPY set.sh /
 
-ADD ../../.env /
+#ADD ../../.env /
 
-RUN sh set.sh
+#RUN sh set.sh
 
 #EXPOSE 3306
 
-CMD [ "mysqld"]
+#CMD [ "mysqld"]
+
+CMD [ "bash", "set.sh"]
