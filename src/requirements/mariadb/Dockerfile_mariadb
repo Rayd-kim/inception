@@ -2,18 +2,8 @@ FROM debian:buster
 
 RUN apt-get update && apt-get -y install mariadb-server vim procps
 
-# RUN echo "bind-address = 0.0.0.0" > /etc/mysql/mariadb.conf.d/50-server.cnf
-
 COPY 50-server.cnf /etc/mysql/mariadb.conf.d/
 
 COPY set.sh /
-
-#ADD ../../.env /
-
-#RUN sh set.sh
-
-#EXPOSE 3306
-
-#CMD [ "mysqld"]
 
 CMD [ "bash", "set.sh"]

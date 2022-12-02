@@ -1,8 +1,10 @@
 FROM debian:buster
 
-RUN apt-get update && apt-get install -y wget php-fpm vim \
-		&& apt-get install -y mariadb-client \
-		&& apt-get install -y php-mysqlnd php-mysqli
+RUN apt-get update \
+	&& apt-get install -y wget php-fpm vim \
+	&& apt-get install -y mariadb-client \
+	&& apt-get install -y php-mysqlnd php-mysqli \
+	&& apt-get install -y sendmail
 
 RUN mkdir /var/run/php
 
