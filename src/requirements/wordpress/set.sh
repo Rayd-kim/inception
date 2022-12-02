@@ -1,4 +1,4 @@
-
+#!/bin/sh
 if [ -e /usr/local/bin/wp ];
 then
 	echo "already wp_cli installed"

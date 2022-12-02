@@ -1,3 +1,4 @@
+#!/bin/sh
 if [ ! -d /home/youskim/data ];then
 	sudo mkdir /home/youskim/data
 fi
