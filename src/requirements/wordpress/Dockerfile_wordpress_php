@@ -3,16 +3,12 @@ FROM debian:buster
 RUN apt-get update \
 	&& apt-get install -y wget php-fpm vim \
 	&& apt-get install -y mariadb-client \
-	&& apt-get install -y php-mysqlnd php-mysqli \
+	&& apt-get install -y php-mysqlnd php-mysqli
 
 RUN mkdir /var/run/php
 
 COPY www.conf /etc/php/7.3/fpm/pool.d/
 
 COPY set.sh /
-
-#RUN sh set.sh
-
-#CMD php-fpm7.3 --nodaemonize
 
 CMD ["bash", "set.sh"]
