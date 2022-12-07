@@ -5,16 +5,16 @@ MYSQL_DATA = /home/youskim/data/mysql
 WP_DATA = /home/youskim/data/wordpress
 
 all: start
-	cd ./$(WORKDIR) && docker-compose up -d --build
+	cd ./$(WORKDIR) && docker compose up -d --build
 
 start:
 	sudo sh start.sh
 
 restart: shutdown
-	cd ./$(WORKDIR) && docker-compose up -d
+	cd ./$(WORKDIR) && docker compose up -d
 
 shutdown:
-	cd ./$(WORKDIR) && docker-compose down
+	cd ./$(WORKDIR) && docker compose down
 
 reset: shutdown
 	docker volume rm db wp

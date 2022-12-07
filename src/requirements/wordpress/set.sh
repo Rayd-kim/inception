@@ -29,7 +29,7 @@ else
 		wp config create --dbname=$DB_NAME --dbuser=$DB_USER --dbpass=$DB_PW --dbhost=mariadb --dbprefix=wp_ --allow-root
 	done
 	wp core install --url=$WP_ADMIN_URL --title=inception --admin_user=$WP_ADMIN_ID --admin_password=$WP_ADMIN_PW --admin_email=$WP_ADMIN_EMAIL --path=/var/www/html --allow-root
-	wp user create $WP_USER_ID $WP_USER_EMAIL --user_pass=$WP_USER_PW --allow-root
+	wp user create $WP_USER_ID $WP_USER_EMAIL --user_url=$WP_USER_URL --user_pass=$WP_USER_PW --allow-root
 fi
 
 php-fpm7.3 --nodaemonize
